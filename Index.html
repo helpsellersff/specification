@@ -465,7 +465,7 @@
             html += `<button class="add-item-btn" data-section-id="${section.id}">+ Добавить пункт</button></div></div></div>`;
         });
         
-        html += `<div class="extra-info"><h3>📌 Дополнительные указания</h3><textarea id="globalRemarks" rows="2">${escapeHtml(globalRemarksText)}</textarea><div class="signature-line"><span>Упаковщик: ______________</span><span>Контролёр: ______________</span></div></div>`;
+        html += `<div class="extra-info"><h3>📌 Дополнительные указания</h3><textarea id="globalRemarks" rows="2">${escapeHtml(globalRemarksText)}</textarea><div class="signature-line"><span>Упаковщик: ______________</span><span>Бригадир: ______________</span></div></div>`;
         container.innerHTML = html;
         attachEvents();
     }
