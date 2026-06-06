@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ТЗ на упаковку товара | Жирный текст пунктов</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e2e8f0;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 20px 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            width: 100%;
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .action-bar {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 12px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn {
+            border: none;
+            background: #f1f5f9;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #1e293b;
+        }
+
+        .btn-primary {
+            background: #2c3e66;
+            color: white;
+        }
+        .btn-primary:hover { background: #1e2a4a; }
+
+        .btn-outline {
+            background: white;
+            border: 1px solid #cbd5e1;
+        }
+        .btn-outline:hover { background: #f8fafc; }
+
+        .btn-accent {
+            background: #e6f0ff;
+            color: #1e4a76;
+            border: 1px solid #b9d0f0;
+        }
+        .btn-accent:hover { background: #d4e4fc; }
+
+        .btn-save {
+            background: #e6f7e6;
+            color: #2d6a2d;
+            border: 1px solid #b0d6b0;
+        }
+        .btn-save:hover { background: #c8e6c8; }
+
+        .save-status {
+            font-size: 0.7rem;
+            color: #2c3e66;
+            background: #eef2ff;
+            padding: 4px 12px;
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .document-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 12px 28px -8px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .tech-spec {
+            background: white;
+            padding: 1.2rem 1.5rem;
+        }
+
+        .doc-header {
+            text-align: center;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #2c3e66;
+            padding-bottom: 10px;
+        }
+        .doc-header h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .doc-header .doc-sub {
+            color: #475569;
+            margin-top: 4px;
+            font-size: 0.7rem;
+        }
+        
+        .product-name-block {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 6px 14px;
+            margin: 10px 0 8px 0;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .product-name-label {
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 0.75rem;
+            background: #eef2ff;
+            padding: 2px 10px;
+            border-radius: 30px;
+        }
+        .product-name-input {
+            flex: 1;
+            padding: 6px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-family: inherit;
+            background: white;
+            font-weight: 500;
+        }
+
+        .doc-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.7rem;
+            color: #475569;
+            border-top: 1px dashed #cbd5e1;
+            padding-top: 8px;
+        }
+
+        .section {
+            margin-bottom: 22px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+            border: 1px solid #edf2f7;
+            border-radius: 18px;
+            padding: 10px 12px 12px 12px;
+            background: #fefefe;
+            transition: box-shadow 0.1s;
+        }
+        @media print {
+            .section.section-empty-for-print {
+                display: none !important;
+            }
+        }
+        .section-title {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            background: #f8fafc;
+            padding: 4px 10px;
+            border-left: 4px solid #2c3e66;
+            margin-bottom: 12px;
+            border-radius: 0 12px 12px 0;
+        }
+        .section-title h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+        .section-controls {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        .icon-btn {
+            background: transparent;
+            border: none;
+            font-size: 0.85rem;
+            cursor: pointer;
+            padding: 2px 8px;
+            border-radius: 30px;
+            color: #475569;
+        }
+        .icon-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .section-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+        
+        .section-image-area {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            min-width: 100px;
+            background: #fdfdfd;
+            padding: 6px;
+            border-radius: 16px;
+        }
+        .section-img-preview {
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            background: #f9f9fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.1s;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .section-img-preview:hover {
+            opacity: 0.94;
+            border-color: #2c3e66;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .section-img-preview img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            transition: 0.05s linear;
+        }
+        .placeholder-img {
+            width: 100%;
+            min-width: 120px;
+            min-height: 110px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: #94a3b8;
+            background: #f1f5f9;
+            border-radius: 16px;
+            text-align: center;
+            gap: 6px;
+            padding: 12px;
+        }
+        
+        .image-size-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+            width: 100%;
+            background: #fafcff;
+            border-radius: 28px;
+            padding: 6px 10px;
+        }
+        .size-slider {
+            width: 160px;
+            cursor: pointer;
+            accent-color: #2c3e66;
+        }
+        .size-buttons {
+            display: flex;
+            gap: 8px;
+            font-size: 0.7rem;
+            align-items: center;
+        }
+        .size-buttons button {
+            background: #eef2ff;
+            border: none;
+            border-radius: 30px;
+            padding: 3px 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .size-buttons button:hover {
+            background: #cbdff5;
+            transform: scale(0.96);
+        }
+        .current-size-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 30px;
+            border: 1px solid #cbd5e1;
+            min-width: 55px;
+            text-align: center;
+        }
+        .img-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 2px;
+        }
+        .img-actions button {
+            background: #eef2ff;
+            border: none;
+            border-radius: 30px;
+            padding: 3px 12px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .img-actions button:hover {
+            background: #cbd5e1;
+        }
+        
+        .items-list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            min-width: 200px;
+        }
+        .task-item {
+            background: #ffffff;
+            border: 1px solid #e9edf2;
+            border-radius: 14px;
+            padding: 5px 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .item-bullet {
+            font-weight: 700;
+            background: #eef2ff;
+            width: 22px;
+            height: 22px;
+            font-size: 0.7rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            color: #2c3e66;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .item-text {
+            flex: 1;
+            font-size: 0.75rem;
+            line-height: 1.38;
+            color: #1e293b;
+            background: transparent;
+            border: none;
+            padding: 3px 0;
+            font-family: inherit;
+            resize: vertical;
+            font-weight: 700;  /* Жирный текст пунктов */
+        }
+        textarea.item-text {
+            background: #fefce8;
+            font-weight: 700;
+        }
+        .item-text:focus {
+            outline: none;
+            background: #fef9c3;
+        }
+        .delete-item {
+            background: none;
+            border: none;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: #94a3b8;
+            padding: 0 5px;
+        }
+        .delete-item:hover {
+            color: #dc2626;
+        }
+        .add-item-btn {
+            margin-top: 6px;
+            background: #f1f5f9;
+            border: 1px dashed #94a3b8;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            width: fit-content;
+        }
+
+        .extra-info {
+            margin-top: 18px;
+            background: #f9f9fb;
+            border-radius: 18px;
+            padding: 12px 16px;
+            border: 1px solid #e2edf2;
+        }
+        .extra-info h3 {
+            font-size: 0.75rem;
+            margin-bottom: 6px;
+        }
+        #globalRemarks {
+            font-size: 0.7rem;
+            padding: 8px;
+            border-radius: 14px;
+            width: 100%;
+            font-family: inherit;
+            border: 1px solid #e2e8f0;
+        }
+        .signature-line {
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px dashed #cbd5e1;
+            padding-top: 10px;
+            font-size: 0.65rem;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .action-bar, .btn-group, .section-controls, .add-item-btn, .delete-item, .icon-btn, .btn, .img-actions, .image-size-controls, .size-buttons {
+                display: none !important;
+            }
+            .tech-spec {
+                padding: 0.6cm 1cm;
+            }
+            .section {
+                border: 1px solid #ddd;
+                padding: 6px 8px;
+            }
+            .section-img-preview {
+                border: 1px solid #aaa;
+            }
+            .item-text {
+                background: transparent !important;
+                font-weight: 700 !important;
+            }
+            .placeholder-img, .img-actions, .image-size-controls, .add-item-btn, .delete-item, .icon-btn {
+                display: none !important;
+            }
+            .section:has(.section-img-preview:not(:has(img))):has(.items-list:empty) {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .section-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .section-image-area {
+                width: 100%;
+                align-items: flex-start;
+            }
+            .image-size-controls {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="action-bar">
+        <div class="btn-group">
+            <button class="btn btn-primary" id="printBtn">🖨️ Печать (A4)</button>
+            <button class="btn btn-accent" id="addSectionBtn">➕ Добавить раздел</button>
+            <button class="btn btn-outline" id="resetExampleBtn">📋 Пример ТЗ</button>
+            <button class="btn btn-outline" id="clearAllBtn">🗑️ Сброс</button>
+            <button class="btn btn-save" id="saveDataBtn">💾 Сохранить всё</button>
+        </div>
+        <div class="btn-group">
+            <span id="saveStatusMsg" class="save-status">📌 Изменения не сохранены</span>
+        </div>
+    </div>
+
+    <div class="document-card">
+        <div class="tech-spec" id="techSpecContainer"></div>
+    </div>
+</div>
+
+<script>
+    const STORAGE_KEY = 'tech_spec_packing_data';
+
+    let sectionsData = [
+        {
+            id: "sec_1",
+            title: "Общие требования к упаковке",
+            items: [
+                "Упаковка чистая, без повреждений.",
+                "Использовать пузырчатую пленку для хрупких элементов.",
+                "Фиксация скотчем 50+ мм."
+            ],
+            imageDataURL: null,
+            imageWidth: 140
+        },
+        {
+            id: "sec_2",
+            title: "Маркировка и этикетки",
+            items: [
+                "Наклеить этикетку с артикулом на лицевую сторону.",
+                "Указать массу брутто/нетто на боковой стороне.",
+                "Знак «Хрупкое! Верх не кантовать»."
+            ],
+            imageDataURL: null,
+            imageWidth: 140
+        },
+        {
+            id: "sec_3",
+            title: "Спецификация вложения",
+            items: [
+                "Основной товар (1 шт) — проверка целостности.",
+                "Комплектующие: кабель, инструкция, гарантия.",
+                "Аксессуары в отдельном пакете."
+            ],
+            imageDataURL: null,
+            imageWidth: 140
+        }
+    ];
+
+    let productName = "Смартфон / Техника (уточнить модель)";
+    let globalRemarksText = "Согласовать вес с логистом. Фото готовой упаковки обязательно.";
+
+    function loadSavedData() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            try {
+                const data = JSON.parse(saved);
+                if (data.sectionsData && Array.isArray(data.sectionsData)) {
+                    sectionsData = data.sectionsData;
+                }
+                if (data.productName !== undefined) productName = data.productName;
+                if (data.globalRemarksText !== undefined) globalRemarksText = data.globalRemarksText;
+                updateSaveStatusMessage(true);
+                return true;
+            } catch(e) { console.warn("Ошибка загрузки", e); }
+        }
+        updateSaveStatusMessage(false);
+        return false;
+    }
+
+    function saveAllData() {
+        syncFromDOM();
+        const saveData = {
+            sectionsData: sectionsData,
+            productName: productName,
+            globalRemarksText: globalRemarksText,
+            savedAt: new Date().toISOString()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(saveData));
+        updateSaveStatusMessage(true);
+        const statusSpan = document.getElementById('saveStatusMsg');
+        statusSpan.style.background = '#e6f7e6';
+        statusSpan.style.color = '#2d6a2d';
+        setTimeout(() => {
+            statusSpan.style.background = '#eef2ff';
+            statusSpan.style.color = '#2c3e66';
+        }, 800);
+    }
+
+    function syncFromDOM() {
+        const allTextareas = document.querySelectorAll('.item-text');
+        allTextareas.forEach(ta => {
+            const sId = ta.getAttribute('data-section-id');
+            const idx = parseInt(ta.getAttribute('data-item-index'), 10);
+            if (sId && !isNaN(idx)) {
+                const section = sectionsData.find(s => s.id === sId);
+                if (section && section.items[idx] !== undefined) {
+                    section.items[idx] = ta.value;
+                }
+            }
+        });
+        const prodInput = document.getElementById('productNameInput');
+        if (prodInput) productName = prodInput.value;
+        const remarksField = document.getElementById('globalRemarks');
+        if (remarksField) globalRemarksText = remarksField.value;
+    }
+
+    function updateSaveStatusMessage(isSaved) {
+        const statusSpan = document.getElementById('saveStatusMsg');
+        if (statusSpan) {
+            if (isSaved) {
+                statusSpan.innerHTML = '✅ Данные сохранены';
+                statusSpan.style.background = '#e6f7e6';
+                statusSpan.style.color = '#2d6a2d';
+            } else {
+                statusSpan.innerHTML = '📌 Изменения не сохранены';
+                statusSpan.style.background = '#eef2ff';
+                statusSpan.style.color = '#2c3e66';
+            }
+        }
+    }
+
+    function genId() {
+        return 'sec_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+    }
+
+    function renderDocument() {
+        const container = document.getElementById('techSpecContainer');
+        if (!container) return;
+
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString('ru-RU', { year:'numeric', month:'long', day:'numeric' });
+        const docNumber = "ТЗ-УП/" + today.getFullYear() + "/" + (today.getMonth()+1) + "/" + today.getDate();
+
+        let html = `
+            <div class="doc-header">
+                <h1>ТЕХНИЧЕСКОЕ ЗАДАНИЕ НА УПАКОВКУ</h1>
+                <div class="doc-sub"></div>
+                <div class="product-name-block">
+                    <span class="product-name-label">📦 Товар:</span>
+                    <input type="text" id="productNameInput" class="product-name-input" value="${escapeHtml(productName)}" placeholder="Наименование, модель, артикул">
+                </div>
+                <div class="doc-meta">
+                    <span>№ ${docNumber}</span>
+                    <span>Дата: ${formattedDate}</span>
+                </div>
+            </div>
+        `;
+
+        sectionsData.forEach((section) => {
+            const sectionId = section.id;
+            const sectionTitle = escapeHtml(section.title);
+            const hasImage = section.imageDataURL && section.imageDataURL.startsWith('data:image');
+            let imgWidth = section.imageWidth || 140;
+            imgWidth = Math.min(500, Math.max(60, imgWidth));
+            if (section.imageWidth !== imgWidth) section.imageWidth = imgWidth;
+            
+            html += `
+                <div class="section" data-section-id="${sectionId}">
+                    <div class="section-title">
+                        <h2>${sectionTitle}</h2>
+                        <div class="section-controls">
+                            <button class="icon-btn add-item-to-section" data-section-id="${sectionId}" title="Добавить пункт">+ пункт</button>
+                            <button class="icon-btn delete-section" data-section-id="${sectionId}" title="Удалить раздел">🗑</button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-image-area">
+                            <div class="section-img-preview" data-section-id="${sectionId}" style="cursor:pointer;">
+            `;
+            if (hasImage && section.imageDataURL) {
+                html += `<img src="${escapeHtml(section.imageDataURL)}" style="width: ${imgWidth}px; height: auto; max-height: 280px; border-radius: 14px;" alt="фото раздела">`;
+            } else {
+                html += `<div class="placeholder-img" style="width: ${imgWidth}px; min-height: 110px;">📷<span>Нажмите +</span><span style="font-size:9px;">добавить фото</span></div>`;
+            }
+            html += `</div>`;
+            
+            if (hasImage) {
+                html += `
+                    <div class="image-size-controls">
+                        <input type="range" class="size-slider" data-section-id="${sectionId}" min="60" max="500" step="5" value="${imgWidth}" style="width:180px;">
+                        <div class="size-buttons">
+                            <button class="size-smaller" data-section-id="${sectionId}" data-delta="-20">−20px</button>
+                            <span class="current-size-label">${imgWidth}px</span>
+                            <button class="size-larger" data-section-id="${sectionId}" data-delta="20">+20px</button>
+                            <button class="size-smaller" data-section-id="${sectionId}" data-delta="-50" title="Уменьшить на 50">−50</button>
+                            <button class="size-larger" data-section-id="${sectionId}" data-delta="50" title="Увеличить на 50">+50</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            html += `<div class="img-actions">
+                                <button class="upload-image-btn" data-section-id="${sectionId}">📁 Загрузить фото</button>
+                                ${hasImage ? `<button class="remove-image-btn" data-section-id="${sectionId}">✖ Удалить</button>` : ''}
+                            </div>
+                        </div>
+                        <div class="items-list" data-section-items="${sectionId}">
+            `;
+            
+            if (section.items.length === 0) {
+                html += `<div style="font-size:0.7rem; color:#94a3b8; padding:8px; text-align:center;">Нет пунктов. Нажмите «+ Добавить пункт»</div>`;
+            } else {
+                section.items.forEach((itemText, itemIndex) => {
+                    html += `
+                        <div class="task-item">
+                            <div class="item-bullet">${itemIndex+1}</div>
+                            <textarea class="item-text" data-section-id="${sectionId}" data-item-index="${itemIndex}" rows="1" placeholder="Требование...">${escapeHtml(itemText)}</textarea>
+                            <button class="delete-item" data-section-id="${sectionId}" data-item-index="${itemIndex}" title="Удалить">✕</button>
+                        </div>
+                    `;
+                });
+            }
+            html += `<button class="add-item-btn" data-section-id="${sectionId}">+ Добавить пункт</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += `
+            <div class="extra-info">
+                <h3>📌 Дополнительные указания</h3>
+                <textarea id="globalRemarks" rows="2" placeholder="Особые условия, ответственные...">${escapeHtml(globalRemarksText)}</textarea>
+                <div class="signature-line">
+                    <span>Упаковщик: ______________</span>
+                    <span>Контролёр: ______________</span>
+                </div>
+            </div>
+        `;
+
+        container.innerHTML = html;
+        attachDynamicEvents();
+        autoResizeTextareas();
+
+        const prodInput = document.getElementById('productNameInput');
+        if (prodInput) {
+            prodInput.addEventListener('input', (e) => { productName = e.target.value; });
+        }
+        const remarksField = document.getElementById('globalRemarks');
+        if (remarksField) {
+            remarksField.addEventListener('input', (e) => { globalRemarksText = e.target.value; });
+        }
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function updateImageWidth(sectionId, newWidth) {
+        const section = sectionsData.find(s => s.id === sectionId);
+        if (section && section.imageDataURL) {
+            newWidth = Math.min(500, Math.max(60, newWidth));
+            section.imageWidth = newWidth;
+            renderDocument();
+        }
+    }
+
+    function attachDynamicEvents() {
+        document.querySelectorAll('.add-item-btn').forEach(btn => {
+            btn.removeEventListener('click', handleAddItem);
+            btn.addEventListener('click', handleAddItem);
+        });
+        document.querySelectorAll('.add-item-to-section').forEach(btn => {
+            btn.removeEventListener('click', handleAddItemFromIcon);
+            btn.addEventListener('click', handleAddItemFromIcon);
+        });
+        document.querySelectorAll('.delete-item').forEach(btn => {
+            btn.removeEventListener('click', handleDeleteItem);
+            btn.addEventListener('click', handleDeleteItem);
+        });
+        document.querySelectorAll('.delete-section').forEach(btn => {
+            btn.removeEventListener('click', handleDeleteSection);
+            btn.addEventListener('click', handleDeleteSection);
+        });
+        document.querySelectorAll('.item-text').forEach(ta => {
+            ta.removeEventListener('blur', handleTextChange);
+            ta.addEventListener('blur', handleTextChange);
+            ta.removeEventListener('input', autoResizeSingle);
+            ta.addEventListener('input', autoResizeSingle);
+        });
+        
+        document.querySelectorAll('.upload-image-btn').forEach(btn => {
+            btn.removeEventListener('click', handleUploadImage);
+            btn.addEventListener('click', handleUploadImage);
+        });
+        document.querySelectorAll('.section-img-preview').forEach(preview => {
+            preview.removeEventListener('click', handlePreviewClick);
+            preview.addEventListener('click', handlePreviewClick);
+        });
+        document.querySelectorAll('.remove-image-btn').forEach(btn => {
+            btn.removeEventListener('click', handleRemoveImage);
+            btn.addEventListener('click', handleRemoveImage);
+        });
+        
+        document.querySelectorAll('.size-slider').forEach(slider => {
+            slider.removeEventListener('input', handleSizeSlider);
+            slider.addEventListener('input', handleSizeSlider);
+        });
+        document.querySelectorAll('.size-smaller, .size-larger').forEach(btn => {
+            btn.removeEventListener('click', handleSizeButton);
+            btn.addEventListener('click', handleSizeButton);
+        });
+    }
+
+    function handleSizeSlider(e) {
+        const slider = e.currentTarget;
+        const sectionId = slider.getAttribute('data-section-id');
+        if (sectionId) {
+            let newWidth = parseInt(slider.value, 10);
+            updateImageWidth(sectionId, newWidth);
+        }
+    }
+
+    function handleSizeButton(e) {
+        const btn = e.currentTarget;
+        const sectionId = btn.getAttribute('data-section-id');
+        const delta = parseInt(btn.getAttribute('data-delta'), 10);
+        if (sectionId && !isNaN(delta)) {
+            const section = sectionsData.find(s => s.id === sectionId);
+            if (section && section.imageDataURL) {
+                let current = section.imageWidth || 140;
+                let newWidth = current + delta;
+                updateImageWidth(sectionId, newWidth);
+            }
+        }
+    }
+
+    function handleUploadImage(e) {
+        e.stopPropagation();
+        const sectionId = e.currentTarget.getAttribute('data-section-id');
+        if (sectionId) triggerImageUpload(sectionId);
+    }
+
+    function handlePreviewClick(e) {
+        const previewDiv = e.currentTarget.closest('.section-img-preview');
+        if (previewDiv) {
+            const sectionId = previewDiv.getAttribute('data-section-id');
+            if (sectionId) triggerImageUpload(sectionId);
+        }
+    }
+
+    function triggerImageUpload(sectionId) {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/jpeg,image/png,image/jpg,image/webp';
+        input.onchange = (event) => {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                if (file.size > 3 * 1024 * 1024) {
+                    alert('Файл слишком большой! Максимум 3 МБ.');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (loadEvent) => {
+                    const imageData = loadEvent.target.result;
+                    const section = sectionsData.find(s => s.id === sectionId);
+                    if (section) {
+                        section.imageDataURL = imageData;
+                        if (!section.imageWidth) section.imageWidth = 160;
+                        renderDocument();
+                    }
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Пожалуйста, выберите изображение (JPG, PNG, WEBP)');
+            }
+        };
+        input.click();
+    }
+
+    function handleRemoveImage(e) {
+        e.stopPropagation();
+        const sectionId = e.currentTarget.getAttribute('data-section-id');
+        if (sectionId) {
+            const section = sectionsData.find(s => s.id === sectionId);
+            if (section) {
+                section.imageDataURL = null;
+                section.imageWidth = 140;
+                renderDocument();
+            }
+        }
+    }
+
+    function handleAddItem(e) {
+        const btn = e.currentTarget;
+        let sectionId = btn.getAttribute('data-section-id');
+        if (!sectionId && btn.closest('.section')) {
+            sectionId = btn.closest('.section')?.getAttribute('data-section-id');
+        }
+        if (sectionId) addNewItem(sectionId, 'Новое требование...');
+    }
+
+    function handleAddItemFromIcon(e) {
+        const btn = e.currentTarget;
+        let sectionId = btn.getAttribute('data-section-id');
+        if (sectionId) addNewItem(sectionId, 'Доп. пункт');
+    }
+
+    function addNewItem(sectionId, defaultText) {
+        const section = sectionsData.find(s => s.id === sectionId);
+        if (section) {
+            section.items.push(defaultText);
+            renderDocument();
+            setTimeout(() => {
+                const lastItem = document.querySelector(`.section[data-section-id="${sectionId}"] .item-text:last-child`);
+                if (lastItem) { lastItem.focus(); lastItem.select?.(); }
+            }, 30);
+        }
+    }
+
+    function handleDeleteItem(e) {
+        const btn = e.currentTarget;
+        const sectionId = btn.getAttribute('data-section-id');
+        const idx = parseInt(btn.getAttribute('data-item-index'), 10);
+        if (sectionId && !isNaN(idx)) {
+            const section = sectionsData.find(s => s.id === sectionId);
+            if (section && section.items.length > idx) {
+                section.items.splice(idx, 1);
+                renderDocument();
+            }
+        }
+    }
+
+    function handleDeleteSection(e) {
+        const btn = e.currentTarget;
+        const sectionId = btn.getAttribute('data-section-id');
+        if (sectionId) {
+            const index = sectionsData.findIndex(s => s.id === sectionId);
+            if (index !== -1) {
+                sectionsData.splice(index, 1);
+                if (sectionsData.length === 0) {
+                    sectionsData.push({ id: genId(), title: "Новый раздел", items: ["Добавьте требование"], imageDataURL: null, imageWidth: 140 });
+                }
+                renderDocument();
+            }
+        }
+    }
+
+    function handleTextChange(e) {
+        const ta = e.currentTarget;
+        const sectionId = ta.getAttribute('data-section-id');
+        const idx = parseInt(ta.getAttribute('data-item-index'), 10);
+        if (sectionId && !isNaN(idx)) {
+            const section = sectionsData.find(s => s.id === sectionId);
+            if (section && section.items[idx] !== undefined) section.items[idx] = ta.value;
+        }
+    }
+
+    function autoResizeSingle(e) {
+        const el = e.target;
+        if (el.tagName === 'TEXTAREA') {
+            el.style.height = 'auto';
+            el.style.height = Math.min(el.scrollHeight, 110) + 'px';
+        }
+    }
+
+    function autoResizeTextareas() {
+        document.querySelectorAll('.item-text').forEach(ta => {
+            ta.style.height = 'auto';
+            ta.style.height = Math.min(ta.scrollHeight, 110) + 'px';
+        });
+    }
+
+    function addNewSection() {
+        const newTitle = prompt("Название раздела:", "Новый раздел");
+        if (newTitle === null) return;
+        const finalTitle = newTitle.trim() || "Новый раздел";
+        const newSection = {
+            id: genId(),
+            title: finalTitle,
+            items: ["Опишите требование..."],
+            imageDataURL: null,
+            imageWidth: 160
+        };
+        sectionsData.push(newSection);
+        renderDocument();
+        setTimeout(() => {
+            const newElem = document.querySelector(`.section[data-section-id="${newSection.id}"]`);
+            if (newElem) newElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 50);
+    }
+
+    function loadExampleData() {
+        sectionsData = [
+            { id: genId(), title: "Пример упаковки", items: ["Картонная коробка повышенной прочности", "Пузырчатая пленка 2 слоя"], imageDataURL: null, imageWidth: 140 },
+            { id: genId(), title: "Маркировка", items: ["Этикетка с артикулом и весом", "Знак «Не кантовать» на двух сторонах"], imageDataURL: null, imageWidth: 140 },
+            { id: genId(), title: "Комплектация", items: ["Товар, кабель, инструкция", "Гарантийный талон"], imageDataURL: null, imageWidth: 140 }
+        ];
+        productName = "Смартфон / Пример товара";
+        globalRemarksText = "Перед упаковкой сверить серийный номер.";
+        renderDocument();
+    }
+
+    function clearAllData() {
+        if (confirm("Сбросить все разделы и изображения? Сохранённые данные при этом не удалятся, пока не нажмёте «Сохранить».")) {
+            sectionsData = [{ id: genId(), title: "Базовый раздел", items: ["Добавьте первое требование"], imageDataURL: null, imageWidth: 140 }];
+            productName = "";
+            globalRemarksText = "";
+            renderDocument();
+        }
+    }
+
+    function printDocumentHandler() {
+        syncFromDOM();
+        window.print();
+    }
+
+    function init() {
+        loadSavedData();
+        renderDocument();
+        document.getElementById('printBtn')?.addEventListener('click', printDocumentHandler);
+        document.getElementById('addSectionBtn')?.addEventListener('click', addNewSection);
+        document.getElementById('resetExampleBtn')?.addEventListener('click', loadExampleData);
+        document.getElementById('clearAllBtn')?.addEventListener('click', clearAllData);
+        document.getElementById('saveDataBtn')?.addEventListener('click', saveAllData);
+    }
+    init();
+</script>
+</body>
+</html>
